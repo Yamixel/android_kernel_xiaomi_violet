@@ -55,7 +55,7 @@ if [ -d "/root/project" ]; then
 	git clone --depth=1 https://github.com/fabianonline/telegram.sh.git telegram
 	# Set environment for telegram
 	export TELEGRAM_DIR="$KERNEL_DIR/telegram/telegram"
-	export TELEGRAM_CHAT="-1002143086681"
+	export TELEGRAM_CHAT="-1001994137398"
 	# Get CPU name
 	export CPU_NAME="$(lscpu | sed -nr '/Model name/ s/.*:\s*(.*) */\1/p')"
 else
@@ -123,9 +123,11 @@ clone() {
 
 	if [ $COMPILER == "clang" ]; then
 		# Clone clang
-		git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 --depth=1 clang
+		#git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 --depth=1 clang
+		wget "$(curl -s https://raw.githubusercontent.com/XSans0/WeebX-Clang/main/main/link.txt)" -O "weebx-clang.tar.gz"
+		mkdir clang && tar -xf weebx-clang* -C clang && rm -rf weebx-clang.tar.gz
 		# Set environment for clang
-		CLANG_DIR=$KERNEL_DIR/clang/clang-r510928
+		CLANG_DIR=$KERNEL_DIR/clang
 		# Get path and compiler string
 		KBUILD_COMPILER_STRING=$("$CLANG_DIR"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
 		PATH=$CLANG_DIR/bin/:$PATH
