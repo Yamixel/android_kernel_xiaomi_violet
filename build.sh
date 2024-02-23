@@ -31,10 +31,10 @@ PROCS=$(nproc --all)
 export PROCS
 
 # Set date and time
-DATE=$(TZ=Asia/Jakarta date)
+DATE=$(TZ=Asia/Shanghai date)
 
 # Set date and time for zip name
-ZIP_DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%H%M")
+ZIP_DATE=$(TZ=Asia/Shanghai date +"%Y%m%d-%H%M")
 
 # Get branch name
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
@@ -93,7 +93,7 @@ tg_post_build() {
 
 # Set function for setup KernelSU
 setup_ksu() {
-	curl -kLSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
+	curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
 	if [ -d "$KERNEL_DIR"/KernelSU ]; then
 		git apply KernelSU-hook.patch
 	else
