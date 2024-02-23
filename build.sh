@@ -15,7 +15,7 @@ IMG_DIR="$KERNEL_DIR"/out/arch/arm64/boot
 DEFCONFIG=vendor/violet-perf_defconfig
 
 # Set common environment
-export KBUILD_BUILD_USER="rezaadi0105"
+export KBUILD_BUILD_USER="magojohnji"
 
 #
 # Set if do you use GCC or clang compiler
@@ -104,7 +104,7 @@ setup_ksu() {
 
 anykernel3() {
         # Clone AnyKernel3
-        git clone --depth=1 https://github.com/rezaadi0105/AnyKernel3.git -b single
+        git clone --recursive --depth=1 -j $(nproc) --branch single https://github.com/rezaadi0105/AnyKernel3.git
 }
 
 # Set function for clean
@@ -123,9 +123,10 @@ clone() {
 
 	if [ $COMPILER == "clang" ]; then
 		# Clone clang
-		git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 --depth=1 clang
+  		wget https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/master/clang-r510928.tar.gz
+        	tar -C clang-r510928/ -zxvf clang-r510928.tar.gz
 		# Set environment for clang
-		CLANG_DIR=$KERNEL_DIR/clang/clang-r510928
+		CLANG_DIR=$KERNEL_DIR/clang-r510928
 		# Get path and compiler string
 		KBUILD_COMPILER_STRING=$("$CLANG_DIR"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
 		PATH=$CLANG_DIR/bin/:$PATH
